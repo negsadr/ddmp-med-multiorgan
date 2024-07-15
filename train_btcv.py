@@ -3,7 +3,7 @@
 from torchvision.transforms import RandomCrop, Compose, ToPILImage, Resize, ToTensor, Lambda
 from diffusion_model.trainer import GaussianDiffusion, Trainer
 from diffusion_model.unet import create_model
-from dataset import NiftiImageGenerator, NiftiPairImageGenerator
+from dataset_btcv import NiftiImageGenerator, NiftiPairImageGenerator
 import argparse
 import torch
 
