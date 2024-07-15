@@ -1,8 +1,8 @@
 #-*- coding:utf-8 -*-
 # +
 from torchvision.transforms import RandomCrop, Compose, ToPILImage, Resize, ToTensor, Lambda
-from diffusion_model.trainer import GaussianDiffusion, Trainer
-from diffusion_model.unet import create_model
+from diffusion_model.trainer_btcv import GaussianDiffusion, Trainer
+from diffusion_model.unet_btcv import create_model
 from dataset_btcv import NiftiImageGenerator, NiftiPairImageGenerator
 import argparse
 import torch
@@ -13,8 +13,8 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 # -
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--inputfolder', type=str, default="dataset/btcv/labelsTr")
-parser.add_argument('-t', '--targetfolder', type=str, default="dataset/btcv/imagesTr")
+parser.add_argument('-i', '--inputfolder', type=str, default="dataset/btcv/labelsTr/")
+parser.add_argument('-t', '--targetfolder', type=str, default="dataset/btcv/imagesTr/")
 parser.add_argument('--input_size', type=int, default=128)
 parser.add_argument('--depth_size', type=int, default=128)
 parser.add_argument('--num_channels', type=int, default=128)
