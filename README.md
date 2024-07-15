@@ -1,15 +1,19 @@
 <!-- #region -->
-# Med-DDPM: Conditional Diffusion Models for Semantic 3D Brain MRI Synthesis (Whole-Head MRI & 4 Modalities Brain MRIs)
+# 3D Abdominal CT Image Synthesis Using Med-DDPM
 
 
-[[Preprint on ArXiv](https://arxiv.org/pdf/2305.18453.pdf)] | [[Early Access on IEEE Xplore](https://ieeexplore.ieee.org/document/10493074)] 
+## Summary
 
-This repository hosts the official PyTorch implementation and pretrained model weights for our paper, "Conditional Diffusion Models for Semantic 3D Brain MRI Synthesis," which has been accepted for publication in the IEEE Journal of Biomedical and Health Informatics. Our research focuses on the utilization of diffusion models to generate realistic and high-quality 3D medical images while preserving semantic information. We trained our proposed method on both whole-head MRI and brain-extracted 4 modalities MRIs (<a href="http://braintumorsegmentation.org/">BraTS2021</a>).
-
-For the generation of the 4 modalities (T1, T1ce, T2, Flair), we trained this model using a selected set of 193 high-quality images from the BraTS2021 dataset. We have made our pretrained model weights available for download. Please feel free to use them for further research, and if you use our code or pretrained weights, kindly cite our paper.
+This repository extends the original med-ddpm repository by including implementations for training the Med-DDPM model to synthesize 3D abdominal CT images.
 
 
-## Synthetic Samples for Given Input Mask:
+
+
+## Med-DDPM
+
+[ArXiv](https://arxiv.org/pdf/2305.18453.pdf) | [IEEE](https://ieeexplore.ieee.org/document/10493074) | [GitHub](https://github.com/mobaidoctor/med-ddpm/)
+
+Med-DDPM, a conditional diffusion model, establishes a benchmark for semantic 3D brain MRI synthesis. It is capable of converting masks to images in either single MRI modality or multiple modalities simultaneously, addressing data scarcity and privacy concerns. Moreover, it outperforms state-of-the-art methods in generating anatomically accurate images. This model presents significant potential for effective data augmentation and image anonymization.
 
 <table>
   <tr>
@@ -35,8 +39,55 @@ For the generation of the 4 modalities (T1, T1ce, T2, Flair), we trained this mo
 </table>
 <!-- #endregion -->
 
-## 🛠️ Setup 
+## Dataset
+The dataset comes from https://www.synapse.org/#!Synapse:syn3193805/wiki/217752.  
 
+Under Institutional Review Board (IRB) supervision, 50 abdomen CT scans of were randomly selected from a combination of an ongoing colorectal cancer chemotherapy trial, and a retrospective ventral hernia study. The 50 scans were captured during portal venous contrast phase with variable volume sizes (512 x 512 x 85 - 512 x 512 x 198) and field of views (approx. 280 x 280 x 280 mm3 - 500 x 500 x 650 mm3). The in-plane resolution varies from 0.54 x 0.54 mm2 to 0.98 x 0.98 mm2, while the slice thickness ranges from 2.5 mm to 5.0 mm.
+
+**Target**: 13 abdominal organs including
+  1. Spleen
+  2. Right Kidney
+  3. Left Kidney
+  4. Gallbladder
+  5. Esophagus
+  6. Liver
+  7. Stomach
+  8. Aorta
+  9. IVC
+  10. Portal and Splenic Veins
+  11. Pancreas
+  12. Right adrenal gland
+  13. Left adrenal gland.
+
+**Modality**: CT
+
+**Size**: 30 3D volumes (24 Training + 6 Testing). First 6 samples used in this project
+
+**Challenge**: BTCV MICCAI Challenge
+
+The following figure shows image patches with the organ sub-regions that are annotated in the CT (top left) and the final labels for the whole dataset (right).
+
+
+![image](https://lh3.googleusercontent.com/pw/AM-JKLX0svvlMdcrchGAgiWWNkg40lgXYjSHsAAuRc5Frakmz2pWzSzf87JQCRgYpqFR0qAjJWPzMQLc_mmvzNjfF9QWl_1OHZ8j4c9qrbR6zQaDJWaCLArRFh0uPvk97qAa11HtYbD6HpJ-wwTCUsaPcYvM=w1724-h522-no?authuser=0)
+
+
+The image patches show anatomies of a subject, including:
+1. large organs: spleen, liver, stomach.
+2. Smaller organs: gallbladder, esophagus, kidneys, pancreas.
+3. Vascular tissues: aorta, IVC, P&S Veins.
+4. Glands: left and right adrenal gland
+   
+
+
+## Usage 
+
+The [Colab Notebook](https://colab.research.google.com/drive/1d7Zh4_bWFyhpKHdsa_zHk1bHM9bTYkh2?authuser=1#scrollTo=IV_9DjyDA06y) includes the steps to train and test the med-ddpm model on 6 samples of the BTCV dataset.
+
+
+
+
+### Alternatively...
+ 
 Ensure you have the following libraries installed for training and generating images:
 
 - **Torchio**: [Torchio GitHub](https://github.com/fepegar/torchio)
@@ -46,89 +97,30 @@ Ensure you have the following libraries installed for training and generating im
 pip install -r requirements.txt
 ```
 
-## 🚀 Run on Your Own Dataset
-
-Med-DDPM is versatile. If you're working with image formats other than NIfTI (.nii.gz), modify the \`read_image\` function in \`dataset.py\`.
-
-1. Specify the segmentation mask directory with \`--inputfolder\`.
-2. Set the image directory using \`--targetfolder\`.
-3. If you have more than 3 segmentation mask label classes, update channel configurations in \`train.py\`, \`datasets.py\`, and \`utils/dtypes.py\`.
-
-## 🎓 Training 
-
-Specify dataset paths using \`--inputfolder\` and \`--targetfolder\`:
-
-### Image Dimensions
-
-- Whole-head MRI synthesis: 128x128x128
-- Brain-extracted 4 modalities (T1, T1ce, T2, Flair) synthesis (BraTS2021): 192x192x144
-
-```
-whole-head MRI synthesis:$ ./scripts/train.sh
-(BraTS) 4 modalities MRI synthesis:$ ./scripts/train_brats.sh
-```
-
-## 🧠 Model Weights
-
-Get our optimized model weights for both whole-head MRI synthesis and 4-modalities MRI synthesis from the link below:
-
+Get the optimized med-ddpm model weights for both whole-head MRI synthesis and 4-modalities MRI synthesis from the link below:
 [Download Model Weights](https://drive.google.com/drive/folders/1t6jk5MrKt34JYClgfijlbNYePIcTEQvJ?usp=sharing)
-
 After downloading, place the files under the "model" directory.
 
-## 🎨 Generating Samples
 
-To create images, follow these steps:
+Set the learned weight file path with \`--weightfile\`.
 
-### Image Dimensions
+Determine the input mask file using \`--inputfolder\`.
 
-- Whole-head MRI synthesis: 128x128x128
-- Brain-extracted 4 modalities (T1, T1ce, T2, Flair) synthesis (BraTS2021): 192x192x144
 
-### Usage
-
-- Set the learned weight file path with \`--weightfile\`.
-- Determine the input mask file using \`--inputfolder\`.
+Use the following commands for training and sample generation.
 
 ```
-whole-head MRI synthesis:$ ./scripts/sample.sh
-(BraTS) 4 modalities MRI synthesis:$ ./scripts/sample_brats.sh
+train the model on BTCV:$ ./scripts/train_btcv.sh
+3D CT abdominal synthesis:$ ./scripts/sample_btcv.sh
 ```
 
-## 📋 ToDo List
 
-Your contributions to Med-DDPM are valuable! Here's our ongoing task list:
+## Refrences
+[1]: Z. Dorjsembe, H. -K. Pao, S. Odonchimed and F. Xiao, "Conditional Diffusion Models for Semantic 3D Brain MRI Synthesis," in IEEE Journal of Biomedical and Health Informatics, vol. 28, no. 7, pp. 4084-4093, July 2024, doi: 10.1109/JBHI.2024.3385504.
 
-- [x] Main model code release
-- [x] Release model weights 
-- [x] Implement fast sampling feature
-- [x] Release 4 modality model code & weights
-- [ ] Deploy model on HuggingFace for broader reach
-- [ ] Draft & release a comprehensive tutorial blog
-- [ ] Launch a Docker image
+[2]: Tang, Y., Yang, D., Li, W., Roth, H.R., Landman, B., Xu, D., Nath, V. and Hatamizadeh, A., 2022. Self-supervised pre-training of swin transformers for 3d medical image analysis. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 20730-20740).
 
-## 📜 Citation
-
-If our work assists your research, kindly cite us:
-```
-@ARTICLE{10493074,
-  author={Dorjsembe, Zolnamar and Pao, Hsing-Kuo and Odonchimed, Sodtavilan and Xiao, Furen},
-  journal={IEEE Journal of Biomedical and Health Informatics}, 
-  title={Conditional Diffusion Models for Semantic 3D Brain MRI Synthesis}, 
-  year={2024},
-  volume={28},
-  number={7},
-  pages={4084-4093},
-  doi={10.1109/JBHI.2024.3385504}}
-```
-
-## 💡 Acknowledgements
-
-Gratitude to these foundational repositories:
-
-1. [denoising-diffusion-pytorch](https://github.com/lucidrains/denoising-diffusion-pytorch)
-2. [guided-diffusion](https://github.com/openai/guided-diffusion)
-
+[3]: Hatamizadeh, A., Nath, V., Tang, Y., Yang, D., Roth, H. and Xu, D., 2022. Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images. arXiv preprint arXiv:2201.01266
 
 ```python
 
