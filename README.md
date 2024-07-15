@@ -81,7 +81,7 @@ The image patches show anatomies of a subject, including:
 
 ## Usage 
 
-The [Colab Notebook](https://colab.research.google.com/drive/1d7Zh4_bWFyhpKHdsa_zHk1bHM9bTYkh2?authuser=1#scrollTo=IV_9DjyDA06y) includes the steps to train and test the med-ddpm model on 6 samples of the BTCV dataset.
+The [Colab Notebook](https://colab.research.google.com/drive/1d7Zh4_bWFyhpKHdsa_zHk1bHM9bTYkh2?usp=sharing) includes the steps to train and test the med-ddpm model on 6 samples of the BTCV dataset.
 
 
 
@@ -122,6 +122,3 @@ train the model on BTCV:$ ./scripts/train_btcv.sh
 
 [3]: Hatamizadeh, A., Nath, V., Tang, Y., Yang, D., Roth, H. and Xu, D., 2022. Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images. arXiv preprint arXiv:2201.01266
 
-```python
-
-```
