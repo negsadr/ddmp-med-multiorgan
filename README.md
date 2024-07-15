@@ -110,8 +110,8 @@ Determine the input mask file using \`--inputfolder\`.
 Use the following commands for training and sample generation.
 
 ```
-train the model on BTCV:$ ./scripts/train_btcv.sh
-3D CT abdominal synthesis:$ ./scripts/sample_btcv.sh
+train the model on BTCV:$ sh ./scripts/train_btcv.sh
+3D CT abdominal synthesis:$ sh ./scripts/sample_btcv.sh
 ```
 
 
