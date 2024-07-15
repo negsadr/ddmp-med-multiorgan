@@ -59,7 +59,7 @@ class NiftiPairImageGenerator(Dataset):
             target_folder: str,
             input_size: int,
             depth_size: int,
-            input_channel: int = 13, #12 masks (no background)+ noise
+            input_channel: int = 14, #13 masks (no background)+ noise
             transform=None,
             target_transform=None,
             full_channel_mask=False,
