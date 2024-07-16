@@ -1,10 +1,10 @@
-This document includes peronal experience while working on this project
+This document includes personal experience while working on this project
 
 ### **Setup Challenges and Solutions**
 During the setup phase, I encountered an issue with the Pytorch installation. When attempting to install specific packages, I received an error stating that the required version of Pytorch (torch==1.13.1+cu116) was not available. To resolve this, I installed an older version of Pytorch by following the instructions on the [official Pytorch website](https://pytorch.org/get-started/previous-versions/).
 
 ### **Dataset Selection Process**
-Selecting the appropriate dataset was initially challenging due to my unfamiliarity with 3D image formats, such as point clouds and NifTi files, which are critical for feeding data into models. After researching and learning more about these formats, I chose the LiTS dataset for a Liver Tumor Segmentation task. The LiTS dataset was particularly suitable because it included three labels (liver, tumor, background) and required minimal modification. For additional information, the dataset can be explored further [here](https://colab.research.google.com/drive/1bn6lWjJXKHxgu985ReHYTR2A_SgdtCS8?authuser=1#scrollTo=Vrp4-x7hIGX6). Consequently, I decided to use the BTCV dataset, which aligned well with my project requirements.
+Selecting the appropriate dataset was initially challenging due to my unfamiliarity with 3D image formats, such as point clouds and NifTi files, which are critical for feeding data into models. After researching and learning more about these formats, I chose the LiTS dataset for a Liver Tumor Segmentation task. The LiTS dataset was particularly suitable because it included three labels (liver, tumor, background) and required minimal modification. For additional information, the dataset is explored in this [colab notebook](https://colab.research.google.com/drive/1bn6lWjJXKHxgu985ReHYTR2A_SgdtCS8?authuser=1#scrollTo=Vrp4-x7hIGX6). Consequently, I decided to use the BTCV dataset, which aligned well with my project requirements.
 
 
 ### **Data Modification Issue**
