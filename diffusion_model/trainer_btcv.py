@@ -306,7 +306,7 @@ class Trainer(object):
         step_start_ema = 2000,
         update_ema_every = 10,
         save_and_sample_every = 1000,
-        results_folder = './results_btcv',
+        results_folder = '../results_btcv',
         with_condition = False,
         with_pairwised = False):
         super().__init__()
