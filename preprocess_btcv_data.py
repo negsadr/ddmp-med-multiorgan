@@ -8,7 +8,7 @@ import torchio as tio
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Preprocess MRI datasets.")
+    parser = argparse.ArgumentParser(description="Preprocess CT datasets.")
     parser.add_argument("--data_dir", type=str, required=True, help="Directory containing the dataset")
     parser.add_argument("--output_dir", type=str, required=True, help="Directory where the outputs will be saved")
     return parser.parse_args()
@@ -16,8 +16,8 @@ def parse_args():
 
 def create_dirs(output_dir):
     dirs = {
-        "imagesTr": os.path.join(output_dir, "imagesTr"),
-        "labelsTr": os.path.join(output_dir, "labelsTr"),
+        "img": os.path.join(output_dir, "img"),
+        "label": os.path.join(output_dir, "label"),
     }
     for dir_path in dirs.values():
         os.makedirs(dir_path, exist_ok=True)
@@ -25,12 +25,14 @@ def create_dirs(output_dir):
 
 
 def load_data_list(data_dir, modality):
-    return sorted(glob.glob(os.path.join(data_dir, "*", f"*_{modality}.nii.gz")))
+    return sorted(glob.glob(os.path.join(data_dir,  f"{modality}", "*.nii.gz")))
 
 
 def preprocess_and_save(subject, output_dirs, img_names):
+    print (subject)
     for modality, img in subject.items():
-        modality_key = modality.replace("_img", "")
+        print(modality, img)
+        modality_key = modality.replace("img_", "")
         if modality_key != "label":  # Skip mask for intensity rescaling
             transform = tio.RescaleIntensity((-1, 1))
             img = transform(img)
@@ -48,22 +50,22 @@ def main():
     args = parse_args()
     output_dirs = create_dirs(args.output_dir)
 
-    modalities = ["image", "label"]
+    modalities = ["img", "label"]
     data_lists = {modality: load_data_list(args.data_dir, modality) for modality in modalities}
 
     # Preprocess and crop
-    for idx in tqdm(range(len(data_lists["image"]))):
+    for idx in tqdm(range(len(data_lists["img"]))):
         img_names = {modality: os.path.basename(data_lists[modality][idx]) for modality in modalities}
         subject = tio.Subject(
-            image_img=tio.ScalarImage(data_lists["image"][idx]),
-            label=tio.LabelMap(data_lists["label"][idx])
+            img_img=tio.ScalarImage(data_lists["img"][idx]),
+            img_label=tio.LabelMap(data_lists["label"][idx])
         )
         transform = tio.CropOrPad((128, 128, 128))
         subject = transform(subject)
         preprocess_and_save(subject, output_dirs, img_names)
 
     # Preprocess mask separately
-    for image_path, label_path in tqdm(zip(data_lists["image"], data_lists["label"])):
+    for image_path, label_path in tqdm(zip(data_lists["img"], data_lists["label"])):
         preprocess_label(image_path, label_path, nib.load(label_path).affine)
 
     print("COMPLETE!")
