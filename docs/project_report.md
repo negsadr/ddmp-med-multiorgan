@@ -13,4 +13,11 @@ I made an error in data preprocessing by passing a scaler argument to the `read_
 
 
 ### **Memory Management Challenges**
-I frequently encountered memory issues, typical of high-dimensional image data represented as voxels. In an ideal scenario, reducing the batch size could alleviate this problem, but my batch size was already set to one. To manage this, I utilized RunPod to access greater computing capacity, enabling more efficient data handling. Despite this, I was unable to run inference on the brats dataset with a robust setup (RTX 3090, 32vCPU, 125GB RAM) and had to upgrade my resources further. I also used Colab Pro L4, which proved effective for my needs.
+I frequently encountered memory issues, typical of high-dimensional image data represented as voxels. In an ideal scenario, reducing the batch size could solve this problem, but my batch size was already set to one. To manage this, I utilized RunPod to access greater computing capacity, enabling more efficient data handling. Despite this, I was unable to run inference on the brats dataset with a robust setup (RTX 3090, 32vCPU, 125GB RAM) and had to upgrade my resources further. I also used Colab Pro L4, which proved effective for my needs.
+
+
+### **Visual analysis of training**
+The original functions does not include any visual analysis of the training process which needs to be added. I normally use [Weights & Biases](https://wandb.ai/site) to better keep track of my experiments.
+
+### **Visualization**
+Also no visualization of the generated samples are included in the original repo. For that I simply used [gif_your_nifti](https://github.com/miykael/gif_your_nifti) package.
