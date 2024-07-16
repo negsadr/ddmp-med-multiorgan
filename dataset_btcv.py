@@ -141,8 +141,6 @@ class NiftiPairImageGenerator(Dataset):
 
     def read_image(self, file_path):
         img = nib.load(file_path).get_fdata()
-        if not pass_scaler:
-            img = self.scaler.fit_transform(img.reshape(-1, img.shape[-1])).reshape(img.shape) # 0 -> 1 scale
         return img
 
     def plot(self, index, n_slice=30):
@@ -195,7 +193,7 @@ class NiftiPairImageGenerator(Dataset):
 
     def __getitem__(self, index):
         input_file, target_file = self.pair_files[index]
-        input_img = self.read_image(input_file, pass_scaler=self.full_channel_mask)
+        input_img = self.read_image(input_file)
         input_img = self.label2masks(input_img) if self.full_channel_mask else input_img
         input_img = self.resize_img(input_img) if not self.full_channel_mask else self.resize_img_4d(input_img)
 
